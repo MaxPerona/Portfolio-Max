@@ -2,7 +2,7 @@
 <h3 align="center">A passionate Web developer. Love to build beautiful websites with latest tech available😄
 </h3>
 </br>
-<p align="left"> <img src="https://komarev.com/ghpvc/?username=codebucks27&label=Profile%20views&color=0e75b6&style=flat" alt="Max Perona" /> </p>
+<p align="left"> <img src="https://komarev.com/ghpvc/?username=max_perona&label=Profile%20views&color=0e75b6&style=flat" alt="Max Perona" /> </p>
 - 📫 How to reach me **perona.max01@gmail.com**
 </br>
 <h3 align="left">▶ Connect with me:</h3>
