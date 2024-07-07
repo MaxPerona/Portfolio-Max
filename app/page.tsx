@@ -1,5 +1,4 @@
 import { title, subtitle } from "@/components/primitives";
-import { Cover } from "@/components/cover";
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
         <h2 className={subtitle({ class: "mt-4" })}>
           Sono un Full-Stack Web Developer e sono appassionato di tecnologia.
         </h2>
-        <Cover />
       </div>
     </section>
   );

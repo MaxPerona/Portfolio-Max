@@ -26,13 +26,15 @@
     "@react-aria/visually-hidden": "3.8.12",
     "@tsparticles/engine": "^3.5.0",
     "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.5.0",
     "clsx": "2.1.1",
     "framer-motion": "~11.1.1",
     "intl-messageformat": "^10.5.0",
     "next": "14.2.4",
     "next-themes": "^0.2.1",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "tsparticles": "^3.5.0"
   },
   "devDependencies": {
     "@types/node": "20.5.7",
