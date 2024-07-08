@@ -83,7 +83,7 @@ export const Navbar = () => {
         <NavbarItem className="hidden sm:flex gap-2">
           <Link
             isExternal
-            aria-label="Twitter"
+            aria-label="Linkedin"
             href={siteConfig.links.linkedin}
           >
             <LinkedInIcon className="text-default-500" />
@@ -120,7 +120,7 @@ export const Navbar = () => {
                       ? "danger"
                       : "foreground"
                 }
-                href="#"
+                href={item.href}
                 size="lg"
               >
                 {item.label}
