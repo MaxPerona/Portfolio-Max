@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/* Design tokens — see docs/design-system.md. Dark is the default. */
+@theme {
+  --font-sans: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-base: #141414;
+  --color-base-tint: #1f1f1f;
+  --color-base-raised: #262626;
+  --color-base-shade: #000000;
+  --color-bright: #f2f5fc;
+  --color-medium: #aeb5c5;
+  --color-muted: #8a8f99;
+  --color-stroke: #34363c;
+  --color-stroke-strong: #535762;
+  --color-control: #f2f5fc;
+  --color-on-control: #151617;
+
+  --radius-card: 2rem;
+  --radius-tile: 1rem;
+  --radius-control: 10px;
+
+  --ease-brand: cubic-bezier(0.23, 0.65, 0.74, 1.09);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-rise: rise 0.45s var(--ease-out-soft) both;
+  --animate-mask-up: mask-up 0.5s var(--ease-out-soft) both;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes mask-up {
+    from {
+      transform: translateY(105%);
+    }
+    to {
+      transform: none;
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+[data-theme="light"] {
+  --color-base: #c9cdd6;
+  --color-base-tint: #d8dde7;
+  --color-base-raised: #e4e8f0;
+  --color-base-shade: #989ba3;
+  --color-bright: #151617;
+  --color-medium: #3a3d41;
+  --color-muted: #4e5257;
+  --color-stroke: #a9adb8;
+  --color-stroke-strong: #7c808b;
+  --color-control: #151617;
+  --color-on-control: #f2f5fc;
+}
+
+@layer base {
+  html {
+    background: var(--color-base);
+    color: var(--color-medium);
+    color-scheme: dark;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  html[data-theme="light"] {
+    color-scheme: light;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  [data-theme="light"] body {
+    font-weight: 400;
+  }
+  h1,
+  h2,
+  h3 {
+    color: var(--color-bright);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-bright);
+    color: var(--color-base);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-bright);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Hero load sequence runs in CSS so it starts before hydration (no LCP penalty). */
+  .hero-in {
+    animation: var(--animate-rise);
+  }
+  .hero-word {
+    display: inline-block;
+    animation: var(--animate-mask-up);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-in {
+      animation: fade 0.3s ease-out both;
+    }
+    .hero-word {
+      animation: fade 0.3s ease-out both;
+    }
+  }
+  /* After a language switch the page swaps in place: no entrance replay. */
+  .skip-intro .hero-in,
+  .skip-intro .hero-word {
+    animation: none;
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .marquee-track {
+    animation: var(--animate-marquee);
+  }
+  .marquee:hover .marquee-track,
+  [data-motion="paused"] .marquee-track {
+    animation-play-state: paused;
+  }
+  /* Motion toggle label: show the action that applies to the current state. */
+  [data-motion="paused"] .motion-on-only,
+  :root:not([data-motion="paused"]) .motion-off-only {
+    display: none !important;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  .eyebrow::before {
+    content: "[ ";
+  }
+  .eyebrow::after {
+    content: " ]";
+  }
+}

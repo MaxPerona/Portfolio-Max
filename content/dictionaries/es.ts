@@ -1,0 +1,317 @@
+import type { Dictionary } from "./en";
+
+const es: Dictionary = {
+  meta: {
+    title: "Software Engineer",
+    description:
+      "Max Perona — software engineer back-end: sistemas fiables, orientados a eventos y con grandes volúmenes de datos con Node.js/TypeScript, NestJS, Laravel, bases de datos SQL/NoSQL, colas de mensajes y Kubernetes.",
+  },
+  common: { present: "hoy", location: "Piamonte, Italia", city: "Turín" },
+  nav: {
+    home: "Inicio",
+    about: "Sobre mí",
+    projects: "Proyectos",
+    skills: "Habilidades",
+    experience: "Experiencia",
+    contact: "Contacto",
+    letsTalk: "Hablemos",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
+    toggleTheme: "Cambiar tema",
+    language: "Idioma",
+    skip: "Ir al contenido",
+    pauseMotion: "Pausar animaciones",
+    resumeMotion: "Reanudar animaciones",
+    backToTop: "Volver arriba",
+    homeLabel: "Max Perona — inicio",
+  },
+  hero: {
+    greeting: "Hola, soy Max Perona",
+    availability: "Disponible también en remoto · Turín, CET",
+    role: "Software Engineer · Back-end",
+    lead: "Construyo back-ends fiables",
+    rest: "para sistemas orientados a eventos y con muchos datos.",
+    bio: "Cuatro años diseñando APIs, pipelines de datos y servicios cloud-native en TypeScript y PHP — del modelo de datos a Kubernetes, con tests y observabilidad integrados. Hoy trabajo en la plataforma de gestión de eventos usada en los Juegos Olímpicos de Invierno Milano-Cortina 2026.",
+    viewProjects: "Ver proyectos",
+    getInTouch: "Contáctame",
+    scroll: "Sigue bajando",
+  },
+  about: {
+    label: "Sobre mí",
+    title: { lead: "APIs limpias, flujos de datos fiables,", rest: "código bien probado" },
+    paragraphs: [
+      "Soy un software engineer back-end y trabajo con Node.js/TypeScript y PHP. Diseño y construyo microservicios escalables y orientados a eventos — sistemas en los que los datos tienen que moverse entre servicios de forma rápida, coherente y sin sorpresas.",
+      "Empecé en IT del lado de sistemas y en 2022 di el salto al desarrollo: aplicaciones web y productos SaaS a medida para clientes, integraciones con CRM y automatizaciones, y hoy gestión de eventos a gran escala. El método no cambia: entender el problema, modelar bien los datos, escribir primero los tests y acompañarlo todo hasta producción.",
+    ],
+    pillars: [
+      { title: "APIs y microservicios", text: "Contratos REST y de eventos, límites claros entre servicios, esquemas y consultas pensados para el rendimiento." },
+      { title: "Eventos y datos", text: "Colas de mensajes y Change Data Capture para mantener los datos sincronizados entre servicios casi en tiempo real." },
+      { title: "Cloud-native y observabilidad", text: "Contenedores, Kubernetes y Helm, con trazas, métricas y logs para ver de verdad qué pasa en producción." },
+      { title: "Calidad y automatización", text: "Test-driven development, quality gates en CI y automatización — de los pipelines a los flujos no-code." },
+    ],
+    facts: [
+      { value: "4", label: "años desarrollando software" },
+      { value: "80%+", label: "cobertura de tests, exigida en CI" },
+      { value: "2026", label: "Juegos de Invierno Milano-Cortina" },
+      { value: "3", label: "idiomas: IT · ES · EN" },
+    ],
+    photo: { alt: "Retrato de Max Perona", placeholder: "Foto próximamente" },
+    cv: { label: "Descargar CV", soon: "Próximamente" },
+    languagesTitle: "Idiomas",
+    languages: [
+      { name: "Italiano", level: "Nativo" },
+      { name: "Español", level: "Nativo" },
+      { name: "Inglés", level: "Fluido · Cambridge B2 First" },
+    ],
+  },
+  projects: {
+    label: "Proyectos",
+    title: { lead: "Sistemas, streams", rest: "y todo lo que los conecta" },
+    intro:
+      "Algunas de las cosas que he diseñado. Casi todo mi trabajo vive en repositorios privados, así que cada proyecto enlaza a un breve caso de estudio sobre el problema, el enfoque y el stack — sin detalles internos ni datos reales.",
+    private: "Código privado",
+    caseStudy: "Caso de estudio",
+    liveDemo: "Demo",
+    source: "Código",
+    stack: "Stack",
+    labTitle: "Proyectos personales y experimentos",
+    items: {
+      "event-reporting-platform": {
+        title: "Plataforma de BI y reporting",
+        category: "Back-end · Datos",
+        role: "Desarrollador back-end principal",
+        context: "Gestión de eventos, Milano-Cortina 2026",
+        summary:
+          "Reporting y BI multi-tenant para una gran plataforma de gestión de eventos: informes configurables, permisos de acceso, enlaces compartidos y exportaciones de grandes volúmenes en bases de datos SQL y NoSQL.",
+        challenge:
+          "Los usuarios de front-office y back-office, a escala olímpica, necesitan crear sus propios informes y descargar todo lo que ven — en PostgreSQL y MongoDB — sin ralentizar los sistemas que generan los datos.",
+        engineering: [
+          { title: "Informes como configuración", text: "Tipos de informe, permisos por rol y enlaces compartidos se modelan como datos y se validan con JSON Schema: los informes nuevos no requieren código nuevo." },
+          { title: "Una API, varios motores", text: "Una API NestJS sobre PostgreSQL (Prisma, Kysely) y MongoDB, con las diferencias entre dialectos gestionadas de forma explícita y consultas optimizadas para datasets grandes y en crecimiento." },
+          { title: "Exportaciones que nunca agotan la memoria", text: "Una librería TypeScript interna genera en streaming archivos XLSX/CSV grandes con memoria acotada, dentro de trabajos de exportación BullMQ con reintentos, retención, cancelación y fallback a URL prefirmada." },
+          { title: "Los tests como contrato", text: "Cobertura unitaria de la API principal elevada del 65,5% al 80,5% (92% con e2e), quality gate del 80% en CI y migraciones de Jest a Vitest y de NestJS a la nueva versión mayor." },
+        ],
+        flow: [
+          { label: "Front / back office", detail: "informes · exportaciones" },
+          { label: "API de reporting", detail: "NestJS · permisos" },
+          { label: "Bases de datos", detail: "PostgreSQL · MongoDB" },
+          { label: "Trabajos de exportación", detail: "BullMQ · reintentos" },
+          { label: "Archivos en streaming", detail: "XLSX · CSV · URL prefirmada" },
+        ],
+        outcomes: [
+          "Principal contribuidor de la API de reporting desde mi llegada.",
+          "Exportaciones con uso de memoria independiente del tamaño del archivo.",
+          "Cobertura por encima del 80% garantizada por el pipeline, no por buenas intenciones.",
+        ],
+        tradeoffs: [
+          "Los informes como configuración abarataron los nuevos tipos de informe, pero llevaron las reglas a JSON Schema — así que los propios esquemas necesitaban tests y versionado.",
+          "Dos dialectos SQL detrás de una sola API simplificaron los clientes, a cambio de consultas explícitas por dialecto y una matriz de tests más amplia.",
+        ],
+        learned: "Las exportaciones son un producto en sí mismas: colas, retención y cancelación importan tanto como el formato del archivo. Y un quality gate de cobertura se mantiene cuando lo exige el pipeline, no una checklist.",
+      },
+      "change-data-capture": {
+        title: "Pipelines de datos orientados a eventos",
+        category: "Datos · Eventos",
+        role: "Desarrollador back-end",
+        context: "Plataforma de microservicios",
+        summary:
+          "Change Data Capture y colas de mensajes que mantienen los datos sincronizados entre servicios y bases de datos casi en tiempo real — sin polling ni procesos nocturnos.",
+        challenge:
+          "Reporting, logística e integraciones con partners dependen de datos que pertenecen a otros servicios y están repartidos en varias bases de datos. Los necesitan actualizados, coherentes y sin acoplarse a quien los escribe.",
+        engineering: [
+          { title: "Un patrón, varias fuentes", text: "Debezium y Maxwell para bases relacionales, un servicio CDC basado en MongoDB Change Streams para las documentales: todas las fuentes producen el mismo tipo de evento en RabbitMQ." },
+          { title: "Consumidores que construyen proyecciones", text: "Los servicios se suscriben a los cambios que les interesan y mantienen sus propios modelos de lectura, como la proyección de reporting de los datos logísticos." },
+          { title: "Colas que aguantan cambios de infraestructura", text: "Escribí el análisis de causa raíz y compatibilidad que hizo las colas BullMQ compatibles con clúster en cuatro servicios, desbloqueando la migración de Redis a DragonflyDB." },
+        ],
+        flow: [
+          { label: "Bases de datos", detail: "PostgreSQL · MySQL · MongoDB" },
+          { label: "Captura", detail: "Debezium · Maxwell · Change Streams" },
+          { label: "Bus de mensajes", detail: "RabbitMQ" },
+          { label: "Consumidores", detail: "proyecciones · reporting" },
+        ],
+        outcomes: [
+          "Cientos de miles de registros sincronizados casi en tiempo real entre bases de datos.",
+          "Los servicios posteriores reaccionan a los cambios en lugar de hacer polling.",
+        ],
+        tradeoffs: [
+          "El CDC aporta datos casi en tiempo real sin tocar a quien los produce, pero convierte el formato de los eventos en parte del contrato: un cambio de esquema en una tabla llega a todos los consumidores.",
+          "Que cada consumidor mantenga su propia proyección duplica datos, algo aceptado a cambio de servicios independientes y lecturas rápidas.",
+        ],
+        learned: "La consistencia eventual hay que diseñarla, no solo tolerarla: consumidores idempotentes y eventos reproducibles son lo que hace fiable la sincronización casi en tiempo real.",
+      },
+      "event-platform-core": {
+        title: "Núcleo de la plataforma de eventos",
+        category: "Back-end · APIs",
+        role: "Desarrollador back-end core",
+        context: "Gestión de eventos, Milano-Cortina 2026",
+        summary:
+          "Las APIs principales de participantes, organizaciones y logística de eventos — los datos sobre los que se apoya el resto de la plataforma.",
+        challenge:
+          "Un evento internacional tiene que gestionar a gran escala personas, organizaciones, grupos de registro y logística, importar grandes datasets de partners y permitir que otros servicios reaccionen a cada cambio.",
+        engineering: [
+          { title: "Un CRM para personas y organizaciones", text: "APIs para participantes, organizaciones y grupos de registro, con búsqueda, filtros y ordenación sobre campos agregados." },
+          { title: "Pensado para operaciones masivas", text: "Acciones masivas estandarizadas e importaciones grandes de partners, para trabajar con miles de registros a la vez." },
+          { title: "Logística del evento", text: "Servicios para asignar kits y vales de comida, transferencias de stock e importación/exportación masiva, con una proyección de reporting alimentada por eventos CDC." },
+          { title: "Mensajería saliente", text: "Los cambios salen de la plataforma como eventos (mensajería saliente basada en Debezium), descritos con AsyncAPI, para que las integraciones sigan desacopladas." },
+        ],
+        flow: [
+          { label: "Back-office y partners", detail: "UI · importaciones" },
+          { label: "APIs core", detail: "NestJS · OpenAPI" },
+          { label: "Base de datos", detail: "PostgreSQL" },
+          { label: "Outbox / CDC", detail: "Debezium" },
+          { label: "Suscriptores", detail: "RabbitMQ · AsyncAPI" },
+        ],
+        outcomes: [
+          "Comportamiento coherente de búsquedas y acciones masivas en todas las APIs core.",
+          "Cada cambio disponible para otros servicios como evento.",
+        ],
+        tradeoffs: [
+          "Buscar y ordenar por campos agregados requiere datos desnormalizados: algo más de trabajo al escribir a cambio de lecturas rápidas y predecibles.",
+          "Estandarizar las acciones masivas entre APIs descartó atajos por endpoint, pero hizo el comportamiento predecible para los equipos de operaciones.",
+        ],
+        learned: "En el núcleo de una plataforma la coherencia es una funcionalidad: los mismos filtros, la misma semántica masiva y un evento por cada cambio ahorran tiempo a todos los equipos posteriores.",
+      },
+      "platform-delivery": {
+        title: "Calidad y delivery",
+        category: "DevOps · Calidad",
+        role: "Colaborador",
+        context: "Microservicios en Kubernetes",
+        summary:
+          "Quality gates automáticos, pipelines de CI, despliegues en Kubernetes y monitorización que convierten en rutina el despliegue de muchos microservicios.",
+        challenge:
+          "Con muchos servicios y muchos equipos, la calidad y los despliegues no pueden depender de revisiones manuales: cada cambio debe pasar los mismos tests, el mismo pipeline y tener la misma visibilidad en producción.",
+        engineering: [
+          { title: "Quality gates en CI", text: "Umbrales de cobertura exigidos en GitLab CI, con tests unitarios y e2e contra bases de datos reales en contenedores." },
+          { title: "Pipelines más rápidos", text: "Caché de registro con Docker Buildx en GitLab CI para reducir los tiempos de build." },
+          { title: "Despliegues como código", text: "Charts de Helm y configuración GitOps para más de 10 microservicios en Kubernetes." },
+          { title: "Observabilidad", text: "Servicios instrumentados con OpenTelemetry, Prometheus, Loki, Grafana y Datadog para seguir una petición por toda la plataforma." },
+        ],
+        flow: [
+          { label: "Commit", detail: "Git" },
+          { label: "CI", detail: "lint · test · coverage gate" },
+          { label: "Imagen", detail: "Docker · caché Buildx" },
+          { label: "Despliegue", detail: "Helm · GitOps" },
+          { label: "Observar", detail: "OTel · Grafana · Datadog" },
+        ],
+        outcomes: ["El mismo camino del commit al clúster para cada servicio.", "Los problemas aparecen en los dashboards antes de que los reporten los usuarios."],
+        tradeoffs: [
+          "Un quality gate estricto de cobertura puede frenar un arreglo urgente, por eso está en un nivel que la suite puede sostener: protege la calidad sin bloquear las entregas.",
+          "Las convenciones compartidas de Helm y GitOps limitan la libertad de cada servicio, a cambio de un único camino predecible del commit al clúster.",
+        ],
+        learned: "La observabilidad compensa antes de los incidentes, no durante: si un día normal no puedes seguir una petición entre servicios, tampoco podrás durante una caída.",
+      },
+    },
+    lab: {
+      hazard: { title: "API de reporte de peligros", text: "Back-end de un mapa en tiempo real para reportar peligros: reportes anónimos con gravedad, ubicación, multimedia, comentarios e historial completo de estados." },
+      socketio: { title: "Salas en tiempo real con Socket.IO", text: "Una prueba de concepto de Socket.IO sobre un servidor HTTP de Node: factory con configuración inyectada, salas y el adaptador de Postgres para repartir mensajes entre instancias." },
+      portfolio: { title: "Este portfolio", text: "Sitio dark-first, guiado por el contenido y en tres idiomas, construido con las últimas versiones de Next.js, React, Tailwind CSS y Motion." },
+    },
+  },
+  skills: {
+    label: "Habilidades",
+    title: { lead: "El stack", rest: "que uso" },
+    levels: { Daily: "Uso diario", Production: "En producción", Familiar: "Conocimiento" },
+    groups: {
+      backend: { name: "Back-end", blurb: "Lenguajes, frameworks y APIs" },
+      data: { name: "Datos y mensajería", blurb: "Bases de datos, colas y Change Data Capture" },
+      devops: { name: "DevOps y cloud", blurb: "Del commit al clúster" },
+      quality: { name: "Calidad y monitorización", blurb: "Tests, quality gates y observabilidad" },
+      frontend: { name: "Front-end", blurb: "Interfaces para los servicios que construyo" },
+      ways: { name: "Forma de trabajar", blurb: "Cómo trabajo en equipo" },
+    },
+  },
+  experience: {
+    label: "Experiencia",
+    title: { lead: "De los cables de red", rest: "a datos a escala olímpica" },
+    workTitle: "Experiencia laboral",
+    educationTitle: "Formación",
+    roles: {
+      wizteam: {
+        title: "Software Engineer, Back-End",
+        location: "Turín",
+        points: [
+          "Desarrollé la plataforma de BI y reporting de la empresa: informes configurables, permisos de acceso y exportaciones de grandes volúmenes en bases de datos SQL y NoSQL, usada por usuarios de front-office y back-office a escala olímpica.",
+          "Construí pipelines de datos orientados a eventos (Change Data Capture, colas de mensajes) que mantienen los datos sincronizados entre servicios casi en tiempo real.",
+          "Desarrollador back-end core de la plataforma de gestión de eventos para participantes, organizaciones y logística.",
+          "Elevé la cobertura de tests del 65% a más del 80% con quality gates automáticos en CI; contribuí a los despliegues en Kubernetes y a la monitorización.",
+        ],
+      },
+      etsolutions: {
+        title: "API Integration Developer",
+        location: "Casale Monferrato",
+        points: [
+          "Conecté CRMs y herramientas de negocio mediante APIs REST y webhooks, para clientes desde agencias de marketing hasta pymes.",
+          "Automaticé flujos de ventas y gestión de clientes con Zapier, Make, Notion y herramientas no-code basadas en IA.",
+        ],
+      },
+      parentesikuadra: {
+        title: "Full Stack Web Developer",
+        location: "Casale Monferrato",
+        points: [
+          "Desarrollé aplicaciones web y productos SaaS a medida para unos 10 clientes, de la base de datos al front-end.",
+          "Introduje pipelines de CI/CD con GitHub Actions y Docker para automatizar los despliegues.",
+        ],
+      },
+      lanservice: {
+        title: "Junior System Engineer",
+        location: "Casale Monferrato",
+        points: ["Soporte técnico de telefonía y conectividad a Internet; asesoramiento a clientes sobre las soluciones más adecuadas."],
+      },
+    },
+    education: {
+      diploma: { title: "Diploma técnico en Informática" },
+      upo: { title: "Estudios de Informática" },
+    },
+  },
+  recommendations: { label: "Recomendaciones", title: { lead: "Lo que dicen", rest: "mis compañeros" } },
+  contact: {
+    label: "Contacto",
+    title: { lead: "Escríbeme,", rest: "¡hablemos!" },
+    intro: "¿Trabajas en algo con muchos datos o necesitas un back-end que aguante la carga? Cuéntamelo — te responderé lo antes posible.",
+    direct: { title: "Escríbeme directamente", text: "La forma más rápida de contactarme es el email — suelo responder en uno o dos días. LinkedIn también vale.", emailMe: "Envíame un email", linkedin: "Escríbeme en LinkedIn" },
+    emailLabel: "Email",
+    basedIn: "Ubicación",
+    workingFrom: "Trabajo desde Turín · CET",
+    elsewhere: "En otros sitios",
+    backToProjects: "Volver a proyectos",
+    form: {
+      name: "Tu nombre*",
+      company: "Empresa",
+      email: "Email*",
+      message: "Unas palabras sobre tu proyecto*",
+      send: "Enviar mensaje",
+      sending: "Enviando…",
+      sentTitle: "Gracias — mensaje recibido.",
+      sentText: "Te responderé lo antes posible.",
+      errors: {
+        name: "Añade tu nombre.",
+        email: "Añade un email válido.",
+        message: "Escribe al menos unas palabras.",
+        rate: "Demasiados mensajes en poco tiempo. Inténtalo más tarde o escríbeme a",
+        notConfigured: "El formulario aún no está activo. Escríbeme directamente a",
+        failed: "Algo salió mal al enviar tu mensaje. Escríbeme a",
+      },
+    },
+  },
+  caseStudy: {
+    all: "Todos los proyectos",
+    counter: "Caso de estudio",
+    type: "Tipo",
+    period: "Periodo",
+    role: "Rol",
+    context: "Contexto",
+    privateNote: "Desarrollado para un código privado. Es una visión general: sin nombres internos, código ni datos.",
+    challenge: "El reto",
+    engineering: "La ingeniería",
+    architecture: "La arquitectura de un vistazo",
+    outcomes: "Resultados",
+    tradeoffs: "Compromisos",
+    learned: "Qué aprendí",
+    stack: "Stack",
+    next: "Siguiente caso de estudio",
+    progress: "Progreso de lectura",
+  },
+  notFound: { title: "Aquí no hay nada.", text: "Esta página no existe — o se ha movido.", back: "Volver al inicio" },
+};
+
+export default es;
