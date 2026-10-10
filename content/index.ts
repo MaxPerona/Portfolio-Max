@@ -11,7 +11,7 @@ export function getProjects(lang: Locale): Project[] {
   return projectsBase.map((p) => ({
     ...t.projects.items[p.slug],
     slug: p.slug,
-    period: span(p.from, null, t.common.present),
+    period: span(p.from, p.to, t.common.present),
     stack: [...p.stack],
     visibility: p.visibility,
   }));

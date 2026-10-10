@@ -11,7 +11,7 @@ import { ArrowRight } from "./icons";
 const initial: ContactState = { status: "idle" };
 
 const field =
-  "w-full border-0 border-b border-stroke bg-transparent px-1 py-4 text-bright placeholder:text-muted transition-colors duration-150 focus:border-bright focus:outline-none focus-visible:outline-none aria-[invalid=true]:border-bright";
+  "w-full border-0 border-b border-stroke-strong bg-transparent px-1 py-4 text-bright placeholder:text-muted transition-colors duration-150 focus:border-bright focus:outline-none focus-visible:outline-none aria-[invalid=true]:border-bright";
 
 const appear = {
   initial: { opacity: 0, y: -6 },

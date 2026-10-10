@@ -1,13 +1,14 @@
 import Image from "next/image";
-import { Fragment } from "react";
 import { notFound } from "next/navigation";
 
 import { ContactForm } from "@/components/contact-form";
 import { SocialLinks } from "@/components/footer";
 import { ArrowDownRight, ArrowRight, ArrowUpRight, LinkedInIcon, MailIcon } from "@/components/icons";
-import { Marquee } from "@/components/marquee";
+import { KeepWords } from "@/components/keep-words";
 import { MotionToggle } from "@/components/motion-toggle";
-import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
+import { MediaReveal } from "@/components/motion/media-reveal";
+import { Reveal, RevealGroup, RevealItem, RevealStagger } from "@/components/motion/reveal";
+import { Parallax, ScrollRule } from "@/components/motion/scroll-motion";
 import { NetworkCanvas } from "@/components/network-canvas";
 import { ProjectCard } from "@/components/project-card";
 import { Eyebrow, Section, Tag } from "@/components/section";
@@ -17,6 +18,7 @@ import { hasLocale, type Locale } from "@/content/locales";
 import { recommendations } from "@/content/recommendations";
 import { site } from "@/content/site";
 import type { Level } from "@/content/types";
+import { beat, drift, stagger } from "@/lib/motion";
 
 /** Fully prerendered; links prefetch the whole page. See note in app/[lang]/layout.tsx. */
 export const instant = false;
@@ -28,58 +30,55 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   return (
     <>
       <Hero t={t} />
-      <Marquee items={site.marquee} />
+      <About t={t} />
       <Projects t={t} lang={lang} />
       <Experience t={t} lang={lang} />
       <Skills t={t} lang={lang} />
-      <About t={t} />
       <Recommendations t={t} />
       <Contact t={t} lang={lang} />
     </>
   );
 }
 
-/** Hero load sequence is CSS-driven (starts before hydration). Delays follow docs/motion.md. */
+/**
+ * Hero load sequence is CSS-driven (starts before hydration): greeting, heading lines, photo wipe,
+ * then copy and actions one beat apart. Delays follow lib/motion.ts.
+ */
 function Hero({ t }: { t: Dictionary }) {
-  const words = [
-    ...t.hero.lead.split(" ").map((w) => ({ w, muted: false })),
-    ...t.hero.rest.split(" ").map((w) => ({ w, muted: true })),
-  ];
-  const wordsEnd = 120 + words.length * 30;
+  const { portrait } = site.photos;
+  const alt = portrait.placeholder ? "" : t.about.photo.alt;
   return (
     <section id="home" aria-labelledby="home-title" className="relative isolate flex min-h-dvh items-end overflow-hidden px-4 pt-32 pb-16 sm:px-6 md:pb-20">
       <NetworkCanvas className="absolute inset-0 -z-10 size-full text-bright opacity-30 [mask-image:radial-gradient(ellipse_at_85%_15%,#000_5%,transparent_60%)] md:opacity-50 md:[mask-image:radial-gradient(ellipse_at_80%_30%,#000_10%,transparent_65%)]" />
       <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[1fr_auto] lg:items-center">
         <div>
           <div className="hero-in flex items-center gap-4">
-            {site.photo ? (
-              <Image src={site.photo} alt={t.about.photo.alt} width={56} height={56} priority className="size-14 rounded-full object-cover lg:hidden" />
-            ) : null}
+            <Image src={portrait.src} alt={alt} width={56} height={56} priority className="size-14 rounded-full object-cover lg:hidden" />
             <p className="flex flex-col gap-1">
               <span className="text-[clamp(1.5rem,2.6vw,2rem)] font-light text-bright">{t.hero.greeting}</span>
               <span className="font-mono text-xs tracking-wide text-muted uppercase">{t.hero.role}</span>
             </p>
           </div>
-          <h1 id="home-title" className="mt-8 max-w-4xl text-[clamp(2.4rem,5.4vw,4.75rem)] leading-[1.06]" aria-label={`${t.hero.lead} ${t.hero.rest}`}>
-            {words.map(({ w, muted }, i) => (
-              <Fragment key={i}>
-                {i > 0 ? " " : null}
-                <span aria-hidden="true" className={`inline-block overflow-hidden pb-[0.08em] align-bottom ${w.includes("-") ? "whitespace-nowrap" : ""}`}>
-                  <span className={`hero-word ${muted ? "text-muted" : ""}`} style={{ animationDelay: `${120 + i * 30}ms` }}>
-                    {w}
-                  </span>
-                </span>
-              </Fragment>
-            ))}
+          <h1 id="home-title" className="mt-8 max-w-4xl text-[clamp(2.4rem,5.4vw,4.75rem)] leading-[1.06]">
+            <span className="-mb-[0.08em] block overflow-hidden pb-[0.08em]">
+              <span className="hero-line" style={{ animationDelay: "120ms" }}>
+                <KeepWords text={t.hero.lead} />{" "}
+              </span>
+            </span>
+            <span className="-mb-[0.08em] block overflow-hidden pb-[0.08em]">
+              <span className="hero-line text-muted" style={{ animationDelay: "180ms" }}>
+                <KeepWords text={t.hero.rest} />
+              </span>
+            </span>
           </h1>
-          <p className="hero-in mt-8 max-w-2xl text-lg text-medium" style={{ animationDelay: `${wordsEnd}ms` }}>
+          <p className="hero-in mt-8 max-w-2xl text-lg text-medium" style={{ animationDelay: "380ms" }}>
             {t.hero.bio}
           </p>
-          <p className="hero-in mt-6 inline-flex items-center gap-2 rounded-full border border-stroke px-3 py-1.5 text-sm text-medium" style={{ animationDelay: `${wordsEnd + 60}ms` }}>
+          <p className="hero-in mt-6 inline-flex items-center gap-2 rounded-full border border-stroke px-3 py-1.5 text-sm text-medium" style={{ animationDelay: "440ms" }}>
             <span className="size-1.5 rounded-full bg-bright" aria-hidden="true" />
             {t.hero.availability}
           </p>
-          <div className="hero-in mt-10 flex flex-wrap items-center gap-3" style={{ animationDelay: `${wordsEnd + 120}ms` }}>
+          <div className="hero-in mt-10 flex flex-wrap items-center gap-3" style={{ animationDelay: "500ms" }}>
             <a href="#projects" className="group inline-flex items-center gap-4 rounded-full bg-control py-2 pr-2 pl-7 text-on-control transition-[opacity,transform] duration-150 hover:opacity-90 active:scale-[0.97]">
               {t.hero.viewProjects}
               <span className="grid size-11 place-items-center rounded-full bg-on-control text-control transition-transform duration-150 ease-out-soft group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0">
@@ -93,26 +92,19 @@ function Hero({ t }: { t: Dictionary }) {
               <SocialLinks />
             </span>
           </div>
-          <div className="hero-in mt-14 flex flex-wrap items-center gap-6" style={{ animationDelay: `${wordsEnd + 200}ms` }}>
-            <a href="#projects" className="inline-flex items-center gap-2 text-sm text-muted transition-colors duration-150 hover:text-bright">
+          <div className="hero-in mt-14 flex flex-wrap items-center gap-6" style={{ animationDelay: "580ms" }}>
+            <a href="#about" className="inline-flex items-center gap-2 text-sm text-muted transition-colors duration-150 hover:text-bright">
               {t.hero.scroll} <ArrowDownRight size={16} />
             </a>
             <MotionToggle pauseLabel={t.nav.pauseMotion} resumeLabel={t.nav.resumeMotion} />
           </div>
         </div>
-        {site.photo ? (
-          <div className="hero-in hidden lg:block" style={{ animationDelay: "200ms" }}>
-            <Image
-              src={site.photo}
-              alt={t.about.photo.alt}
-              width={360}
-              height={450}
-              priority
-              sizes="360px"
-              className="aspect-[4/5] w-[min(28vw,360px)] rounded-card border border-stroke object-cover"
-            />
-          </div>
-        ) : null}
+        {/* Photo: wipes open after the heading, then drifts and settles as you scroll away. */}
+        <div className="hero-wipe relative hidden aspect-[4/5] w-[min(28vw,360px)] overflow-hidden rounded-card border border-stroke lg:block" style={{ animationDelay: "280ms" }}>
+          <Parallax className="absolute inset-x-0 -top-[6%] h-[112%]" y={[0, drift.photo]} scale={[1.06, 1]} offset={["start start", "end start"]}>
+            <Image src={portrait.src} alt={alt} fill priority sizes="360px" className="object-cover" />
+          </Parallax>
+        </div>
       </div>
     </section>
   );
@@ -120,17 +112,24 @@ function Hero({ t }: { t: Dictionary }) {
 
 function About({ t }: { t: Dictionary }) {
   const a = t.about;
+  const { workspace } = site.photos;
   return (
-    <Section id="about" label={a.label} title={a.title}>
-      <div className="max-w-3xl space-y-6 text-lg text-medium">
-        {a.paragraphs.map((p, i) => (
-          <Reveal as="p" key={p} delay={i * 0.06}>
+    <Section id="about" label={a.label} title={a.title} tone="panel">
+      <RevealGroup className="max-w-3xl space-y-6 text-lg text-medium" gap={beat}>
+        {a.paragraphs.map((p) => (
+          <RevealItem as="p" key={p}>
             {p}
-          </Reveal>
+          </RevealItem>
         ))}
-      </div>
+      </RevealGroup>
 
-      <RevealGroup as="ul" className="mt-16 grid gap-px overflow-hidden rounded-card border border-stroke bg-stroke sm:grid-cols-2">
+      <MediaReveal className="relative mt-14 aspect-[16/9] overflow-hidden rounded-card md:aspect-[21/9]">
+        <Parallax className="absolute inset-x-0 -top-[6%] h-[112%]" scale={[1.06, 1]}>
+          <Image src={workspace.src} alt={workspace.placeholder ? "" : a.photo.workspaceAlt} fill sizes="(min-width: 1280px) 1000px, (min-width: 1024px) 75vw, 100vw" className="object-cover" />
+        </Parallax>
+      </MediaReveal>
+
+      <RevealGroup as="ul" className="mt-6 grid gap-px overflow-hidden rounded-card border border-stroke bg-stroke sm:grid-cols-2" gap={stagger.cards}>
         {a.pillars.map((p, i) => (
           <RevealItem as="li" key={p.title} className="bg-base p-7 sm:p-9">
             <p className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</p>
@@ -200,11 +199,18 @@ function Projects({ t, lang }: { t: Dictionary; lang: Locale }) {
   const projects = getProjects(lang);
   const lab = getLab(lang);
   return (
-    <Section id="projects" label={p.label} title={p.title} intro={<p>{p.intro}</p>}>
-      <RevealGroup as="ul" className="grid gap-6 md:grid-cols-2">
+    <Section id="projects" label={p.label} title={p.title} intro={<p>{p.intro}</p>} overlap>
+      <RevealGroup as="ul" className="grid gap-6 md:grid-cols-2" gap={stagger.cards}>
         {projects.map((project, i) => (
           <RevealItem as="li" key={project.slug} className={i % 2 === 1 ? "md:mt-24" : ""}>
-            <ProjectCard project={project} index={i} href={`/${lang}/projects/${project.slug}`} labels={p} />
+            {i % 2 === 1 ? (
+              // The offset column drifts against the scroll so the grid reads as two layers.
+              <Parallax className="h-full" y={[drift.column, -drift.column]} unit="px" minWidth={768}>
+                <ProjectCard project={project} index={i} href={`/${lang}/projects/${project.slug}`} labels={p} />
+              </Parallax>
+            ) : (
+              <ProjectCard project={project} index={i} href={`/${lang}/projects/${project.slug}`} labels={p} />
+            )}
           </RevealItem>
         ))}
       </RevealGroup>
@@ -269,20 +275,20 @@ function Skills({ t, lang }: { t: Dictionary; lang: Locale }) {
         </div>
       }
     >
-      <RevealGroup className="grid gap-6 md:grid-cols-2">
+      <RevealGroup className="grid gap-6 md:grid-cols-2" gap={stagger.cards}>
         {getSkills(lang).map((group) => (
           <RevealItem key={group.name} className="rounded-card border border-stroke p-7 sm:p-9">
             <Eyebrow>{group.name}</Eyebrow>
             <p className="mt-3 text-medium">{group.blurb}</p>
-            <ul className="mt-8 flex flex-wrap gap-2">
+            <RevealStagger className="mt-8 flex flex-wrap gap-2" delay={beat}>
               {group.items.map((item) => (
-                <li key={item.name} className="inline-flex items-center gap-2 rounded-tile bg-base-tint px-3.5 py-2 text-[15px] text-bright">
+                <RevealItem as="li" key={item.name} className="inline-flex items-center gap-2 rounded-tile bg-base-tint px-3.5 py-2 text-[15px] text-bright">
                   <LevelDot level={item.level} />
                   {item.name}
                   <span className="sr-only">({s.levels[item.level]})</span>
-                </li>
+                </RevealItem>
               ))}
-            </ul>
+            </RevealStagger>
           </RevealItem>
         ))}
       </RevealGroup>
@@ -295,18 +301,19 @@ function Experience({ t, lang }: { t: Dictionary; lang: Locale }) {
   return (
     <Section id="experience" label={e.label} title={e.title}>
       <Eyebrow>{e.workTitle}</Eyebrow>
-      <ol className="mt-6 border-t border-stroke">
+      <ScrollRule className="mt-6">
+      <ol className="border-t border-stroke">
         {getRoles(lang).map((role) => (
-          <Reveal as="li" key={`${role.company}-${role.period}`} className="grid gap-4 border-b border-stroke py-10 lg:grid-cols-[150px_1fr_1.3fr] lg:gap-10">
-            <p className="font-mono text-sm text-muted">{role.period}</p>
-            <div>
+          <RevealGroup as="li" key={`${role.company}-${role.period}`} className="grid gap-4 border-b border-stroke py-10 lg:grid-cols-[150px_1fr_1.3fr] lg:gap-10" gap={beat}>
+            <RevealItem as="p" className="font-mono text-sm text-muted">{role.period}</RevealItem>
+            <RevealItem>
               <h3 className="text-[clamp(1.5rem,2.4vw,2rem)] leading-tight">{role.title}</h3>
               <p className="mt-2 text-medium">
                 {role.company}
                 {role.location ? <span className="text-muted"> · {role.location}</span> : null}
               </p>
-            </div>
-            <div>
+            </RevealItem>
+            <RevealItem>
               <ul className="space-y-3 text-medium">
                 {role.points.map((pt) => (
                   <li key={pt} className="flex gap-3">
@@ -322,10 +329,11 @@ function Experience({ t, lang }: { t: Dictionary; lang: Locale }) {
                   ))}
                 </ul>
               ) : null}
-            </div>
-          </Reveal>
+            </RevealItem>
+          </RevealGroup>
         ))}
       </ol>
+      </ScrollRule>
 
       <Eyebrow className="mt-20">{e.educationTitle}</Eyebrow>
       <ol className="mt-6 border-t border-stroke">

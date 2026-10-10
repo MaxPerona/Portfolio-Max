@@ -8,17 +8,18 @@
   --font-sans: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --color-base: #141414;
-  --color-base-tint: #1f1f1f;
-  --color-base-raised: #262626;
-  --color-base-shade: #000000;
-  --color-bright: #f2f5fc;
-  --color-medium: #aeb5c5;
-  --color-muted: #8a8f99;
-  --color-stroke: #34363c;
-  --color-stroke-strong: #535762;
-  --color-control: #f2f5fc;
-  --color-on-control: #151617;
+  /* "Ink wash" palette (#4A4A4A ink · #CBCBCB mist · #FFFFE3 paper · #6D8196 slate), tuned for WCAG 2.1 AA. */
+  --color-base: #2b2b2b;
+  --color-base-tint: #353535;
+  --color-base-raised: #404040;
+  --color-base-shade: #1f1f1f;
+  --color-bright: #ffffe3;
+  --color-medium: #cbcbcb;
+  --color-muted: #bbc5ce;
+  --color-stroke: #4a4a4a;
+  --color-stroke-strong: #6d8196;
+  --color-control: #ffffe3;
+  --color-on-control: #2b2b2b;
 
   --radius-card: 2rem;
   --radius-tile: 1rem;
@@ -57,17 +58,17 @@
 }
 
 [data-theme="light"] {
-  --color-base: #c9cdd6;
-  --color-base-tint: #d8dde7;
-  --color-base-raised: #e4e8f0;
-  --color-base-shade: #989ba3;
-  --color-bright: #151617;
-  --color-medium: #3a3d41;
-  --color-muted: #4e5257;
-  --color-stroke: #a9adb8;
-  --color-stroke-strong: #7c808b;
-  --color-control: #151617;
-  --color-on-control: #f2f5fc;
+  --color-base: #ffffe3;
+  --color-base-tint: #f2f2d5;
+  --color-base-raised: #fffff2;
+  --color-base-shade: #cbcbcb;
+  --color-bright: #333333;
+  --color-medium: #4a4a4a;
+  --color-muted: #455260;
+  --color-stroke: #cbcbcb;
+  --color-stroke-strong: #6d8196;
+  --color-control: #4a4a4a;
+  --color-on-control: #ffffe3;
 }
 
 @layer base {
@@ -123,26 +124,90 @@
   .hero-in {
     animation: var(--animate-rise);
   }
-  .hero-word {
-    display: inline-block;
+  /* Heading line rising out of its mask (the parent span clips it). */
+  .hero-line {
+    display: block;
     animation: var(--animate-mask-up);
+    animation-timing-function: cubic-bezier(0.43, 0.195, 0.02, 1);
+  }
+  /* Photo opening from the bottom edge. */
+  .hero-wipe {
+    animation: wipe 0.5s cubic-bezier(0.65, 0.05, 0, 1) both;
   }
   @media (prefers-reduced-motion: reduce) {
-    .hero-in {
-      animation: fade 0.3s ease-out both;
-    }
-    .hero-word {
+    .hero-in,
+    .hero-line,
+    .hero-wipe {
       animation: fade 0.3s ease-out both;
     }
   }
   /* After a language switch the page swaps in place: no entrance replay. */
   .skip-intro .hero-in,
-  .skip-intro .hero-word {
+  .skip-intro .hero-line,
+  .skip-intro .hero-wipe {
     animation: none;
   }
   @keyframes fade {
     from {
       opacity: 0;
+    }
+  }
+  @keyframes wipe {
+    from {
+      clip-path: inset(100% 0 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  /* About panel: the opposite theme, so it reads as a separate sheet in both modes. */
+  :root:not([data-theme="light"]) .panel-invert {
+    --color-base: #ffffe3;
+    --color-base-tint: #f2f2d5;
+    --color-base-raised: #fffff2;
+    --color-base-shade: #cbcbcb;
+    --color-bright: #333333;
+    --color-medium: #4a4a4a;
+    --color-muted: #455260;
+    --color-stroke: #cbcbcb;
+    --color-stroke-strong: #6d8196;
+    --color-control: #4a4a4a;
+    --color-on-control: #ffffe3;
+    color-scheme: light;
+    font-weight: 400;
+  }
+  [data-theme="light"] .panel-invert {
+    --color-base: #2b2b2b;
+    --color-base-tint: #353535;
+    --color-base-raised: #404040;
+    --color-base-shade: #1f1f1f;
+    --color-bright: #ffffe3;
+    --color-medium: #cbcbcb;
+    --color-muted: #bbc5ce;
+    --color-stroke: #4a4a4a;
+    --color-stroke-strong: #6d8196;
+    --color-control: #ffffe3;
+    --color-on-control: #2b2b2b;
+    color-scheme: dark;
+  }
+  .panel-invert {
+    background: var(--color-base);
+    color: var(--color-medium);
+  }
+
+  /* Project sketches: connectors flow while the card is hovered. */
+  @media (prefers-reduced-motion: no-preference) {
+    .group:hover .sketch-link {
+      animation: sketch-flow 0.9s linear infinite;
+    }
+    [data-motion="paused"] .group:hover .sketch-link {
+      animation: none;
+    }
+  }
+  @keyframes sketch-flow {
+    to {
+      stroke-dashoffset: -7;
     }
   }
 

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { ArchSketch } from "@/components/arch-sketch";
 import { Flow } from "@/components/flow";
+import { KeepWords } from "@/components/keep-words";
 import { ArrowLeft, ArrowRight, LockIcon } from "@/components/icons";
 import { ReadingProgress } from "@/components/motion/reading-progress";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
@@ -61,8 +63,12 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
         <p className="hero-in mt-12 font-mono text-xs text-muted">
           {t.counter} {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
         </p>
-        <h1 className="hero-in mt-4 text-[clamp(2.75rem,7vw,5.5rem)] leading-[1]" style={{ animationDelay: "80ms" }}>
-          {project.title}
+        <h1 className="mt-4 text-[clamp(2.75rem,7vw,5.5rem)] leading-[1]">
+          <span className="-mb-[0.1em] block overflow-hidden pb-[0.1em]">
+            <span className="hero-line" style={{ animationDelay: "80ms" }}>
+              <KeepWords text={project.title} />
+            </span>
+          </span>
         </h1>
         <p className="hero-in mt-8 max-w-3xl text-xl text-medium" style={{ animationDelay: "160ms" }}>
           {project.summary}
@@ -76,6 +82,10 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
             </div>
           ))}
         </dl>
+
+        <div className="hero-wipe mt-6 aspect-[16/9] overflow-hidden rounded-card border border-stroke bg-base-tint md:aspect-[21/9]" style={{ animationDelay: "320ms" }}>
+          <ArchSketch slug={project.slug} className="mx-auto h-full w-auto max-w-full p-6 md:p-8" />
+        </div>
 
         {project.visibility === "private" ? (
           <p className="mt-6 inline-flex items-start gap-2 text-sm text-muted">

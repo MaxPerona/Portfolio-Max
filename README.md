@@ -37,7 +37,7 @@ All copy and data live in `content/`; components only render it.
 
 - `content/dictionaries/{en,it,es}.ts`: translated text (hero, about, projects, experience, UI labels)
 - `content/shared.ts`: language-independent data (project stacks, skills, roles, education)
-- `content/site.ts`: name, links, section order, and the optional `photo` and `cv` paths (files go in `public/`)
+- `content/site.ts`: name, links, section order, and the `photos` (generated placeholders until you add yours) and the optional `cv` path (files go in `public/`)
 - `content/recommendations.ts`: quotes from colleagues; the section stays hidden while the list is empty
 
 ## Project structure

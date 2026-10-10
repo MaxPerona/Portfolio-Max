@@ -3,7 +3,7 @@
 import { PauseIcon, PlayIcon } from "./icons";
 
 /**
- * WCAG 2.2.2 (Pause, Stop, Hide): the marquee and hero network move on their own for more than
+ * WCAG 2.2.2 (Pause, Stop, Hide): the hero network moves on their own for more than
  * five seconds, so visitors get an on-page control. The choice persists across visits.
  */
 export function MotionToggle({ pauseLabel, resumeLabel }: { pauseLabel: string; resumeLabel: string }) {
